@@ -2,9 +2,7 @@
 # string, data, int, float, bool, data, array, array-add, dict, dict-add
 define macdefaults($domain, $key, $value = false, $type = 'string', $action = 'write', $runas = 'root', $currenthost = false) {
 
-  if $runas != 'root' {
-    $user = $::current_user
-  }
+  $user = $runas ? { 'root' => 'root', default => $::current_user }
 
   if $currenthost {
     $writecommand = '/usr/bin/defaults -currentHost write'
